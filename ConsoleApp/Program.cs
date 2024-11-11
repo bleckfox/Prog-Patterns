@@ -2,7 +2,7 @@
 using ConsoleApp.Patterns.Creational.FactoryMethod;
 using ConsoleApp.Patterns.Creational.AbstractFactory;
 using ConsoleApp.Patterns.Creational.Builder;
-using System.IO;
+using ConsoleApp.Patterns.Creational.Prototype;
 
 
 // Singleton
@@ -62,4 +62,17 @@ logger.Log($"User profile -> {userProfile}");
 UserProfileDirector userProfileDirector = new(userProfileBuilder);
 UserProfile defaultProfile = userProfileDirector.BuildDefaultProfile();
 logger.Log($"User profile -> {defaultProfile}");
+Console.WriteLine();
+
+
+// Prototype
+Document originalDocument = new ("Original Title", "Original Content");
+
+Document clonedDocument = originalDocument.Clone();
+clonedDocument.Title = "Cloned Title"; // изменяем название в копии
+clonedDocument.Content = "Cloned Content"; // изменяем содержимое в копии
+
+logger.Log($"Original Document -> {originalDocument}");
+logger.Log($"Cloned Document -> {clonedDocument}");
+logger.Log($"Original Document After Cloning -> {originalDocument}");
 Console.WriteLine();
