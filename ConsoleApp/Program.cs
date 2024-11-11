@@ -1,5 +1,6 @@
 ﻿using ConsoleApp.Patterns.Creational.Singleton;
 using ConsoleApp.Patterns.Creational.FactoryMethod;
+using ConsoleApp.Patterns.Creational.AbstractFactory;
 
 
 // Singleton
@@ -26,3 +27,16 @@ logistic.PlanDelivery();
 logger.Log($"Logistic type: {logistic.GetType()}");
 logger.Log($"Transport type: {logistic.Transport.GetType()}");
 Console.WriteLine();
+
+// Abstract Factory
+Accounts accounts = new ();
+
+ISocialMediaFactory facebookFactory = new FacebookFactory();
+SocialMediaClient facebookClient = new (facebookFactory, "user123");
+facebookClient.LoginAndPost("Hello, Facebook!");
+
+ISocialMediaFactory twitterFactory = new TwitterFactory();
+SocialMediaClient twitterClient = new (twitterFactory, "user456");
+twitterClient.LoginAndPost("Hello, Twitter!");
+
+accounts.GetAcccountsList();
