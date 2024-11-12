@@ -5,6 +5,7 @@ using ConsoleApp.Patterns.Creational.Builder;
 using ConsoleApp.Patterns.Creational.Prototype;
 using ConsoleApp.Patterns.Structural.Facade;
 using ConsoleApp.Patterns.Structural.Adapter;
+using ConsoleApp.Patterns.Structural.Composite;
 
 
 // Singleton
@@ -96,5 +97,25 @@ paymentProcessors.ForEach(paymentProcessor =>
 {
     paymentProcessor.ProcessPayment(100m);
 });
+
+Console.WriteLine();
+
+
+// Composite
+IAccountComponent debitAccount = new DebitAccount("Debit", 1000m);
+IAccountComponent savingAccount = new SavingAccount("Saving", 2000m);
+
+AccountPackage clientPackage = new("Client package");
+clientPackage.AddAccount(debitAccount);
+clientPackage.AddAccount(savingAccount);
+
+
+IAccountComponent corpDebitAccount = new DebitAccount("Corp Debit", 10000m);
+AccountPackage corpPackage = new("Corporate Package");
+corpPackage.AddAccount(corpDebitAccount);
+corpPackage.AddAccount(clientPackage);
+
+corpPackage.DisplayAccountInfo();
+logger.Log($"Total Balance in corporate package: {corpPackage.GetBalance()}");
 
 Console.WriteLine();
