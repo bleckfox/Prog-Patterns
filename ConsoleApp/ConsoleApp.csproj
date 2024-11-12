@@ -20,7 +20,6 @@
     <Folder Include="Patterns\Behavioral\ChainOfResponsibility\" />
     <Folder Include="Patterns\Concurrency\ThreadPool\" />
     <Folder Include="Patterns\Concurrency\ProducerConsumer\" />
-    <Folder Include="Patterns\Structural\Adapter\" />
     <Folder Include="Patterns\Structural\Composite\" />
     <Folder Include="Patterns\Structural\Decorator\" />
     <Folder Include="Patterns\Structural\Proxy\" />

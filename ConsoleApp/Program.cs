@@ -4,6 +4,7 @@ using ConsoleApp.Patterns.Creational.AbstractFactory;
 using ConsoleApp.Patterns.Creational.Builder;
 using ConsoleApp.Patterns.Creational.Prototype;
 using ConsoleApp.Patterns.Structural.Facade;
+using ConsoleApp.Patterns.Structural.Adapter;
 
 
 // Singleton
@@ -79,7 +80,21 @@ logger.Log($"Original Document After Cloning -> {originalDocument}");
 Console.WriteLine();
 
 
-//Facade
+// Facade
 BankingFacade banking = new();
 banking.Transfer("John Doe", "Jane Smith", 1000m);
+Console.WriteLine();
+
+
+// Adapter
+List<IPaymentProcessor> paymentProcessors = [
+        new PayPallService(),
+        new CryptoServiceAdapter(new CryptoService()),
+    ];
+
+paymentProcessors.ForEach(paymentProcessor =>
+{
+    paymentProcessor.ProcessPayment(100m);
+});
+
 Console.WriteLine();
