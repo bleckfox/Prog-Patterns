@@ -3,6 +3,7 @@ using ConsoleApp.Patterns.Creational.FactoryMethod;
 using ConsoleApp.Patterns.Creational.AbstractFactory;
 using ConsoleApp.Patterns.Creational.Builder;
 using ConsoleApp.Patterns.Creational.Prototype;
+using ConsoleApp.Patterns.Structural.Facade;
 
 
 // Singleton
@@ -75,4 +76,10 @@ clonedDocument.Content = "Cloned Content"; // изменяем содержим�
 logger.Log($"Original Document -> {originalDocument}");
 logger.Log($"Cloned Document -> {clonedDocument}");
 logger.Log($"Original Document After Cloning -> {originalDocument}");
+Console.WriteLine();
+
+
+//Facade
+BankingFacade banking = new();
+banking.Transfer("John Doe", "Jane Smith", 1000m);
 Console.WriteLine();
