@@ -6,6 +6,7 @@ using ConsoleApp.Patterns.Creational.Prototype;
 using ConsoleApp.Patterns.Structural.Facade;
 using ConsoleApp.Patterns.Structural.Adapter;
 using ConsoleApp.Patterns.Structural.Composite;
+using ConsoleApp.Patterns.Structural.Decorator;
 
 
 // Singleton
@@ -117,5 +118,34 @@ corpPackage.AddAccount(clientPackage);
 
 corpPackage.DisplayAccountInfo();
 logger.Log($"Total Balance in corporate package: {corpPackage.GetBalance()}");
+
+Console.WriteLine();
+
+
+// Decorator
+decimal amount = 500m;
+decimal limit = 1000m;
+
+ITransaction transaction = new BaseTransaction(amount);
+transaction = new LoggingTransactionDecorator(transaction); // BaseTransaction
+transaction = new NotificationTransactionDecorator(transaction); // Logging
+transaction = new LimitCheckTransactionDecorator(transaction, limit); // Notification
+
+transaction.Process(); // LimitCheck.Process()
+
+Console.WriteLine();
+
+//     Analog
+ITransaction transaction2 = 
+    new LimitCheckTransactionDecorator(
+        new NotificationTransactionDecorator(
+                new LoggingTransactionDecorator(
+                        new BaseTransaction(500m)
+                )
+        ),
+        400m
+    );
+
+transaction2.Process();
 
 Console.WriteLine();
