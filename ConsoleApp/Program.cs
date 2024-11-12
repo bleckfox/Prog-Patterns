@@ -7,6 +7,7 @@ using ConsoleApp.Patterns.Structural.Facade;
 using ConsoleApp.Patterns.Structural.Adapter;
 using ConsoleApp.Patterns.Structural.Composite;
 using ConsoleApp.Patterns.Structural.Decorator;
+using ConsoleApp.Patterns.Structural.Proxy;
 
 
 // Singleton
@@ -147,5 +148,27 @@ ITransaction transaction2 =
     );
 
 transaction2.Process();
+
+Console.WriteLine();
+
+
+// Proxy
+SomeBankAccount someBankAccount = new();
+IBankAccount accountProxyAdmin = new BankAccountProxy(someBankAccount, "Admin");
+IBankAccount accountProxyUser = new BankAccountProxy(someBankAccount, "User");
+IBankAccount accountProxyViewer = new BankAccountProxy(someBankAccount, "Viewer");
+
+accountProxyAdmin.Deposit(100);
+accountProxyAdmin.Withdraw(50);
+logger.Log("Admin balance: " + accountProxyAdmin.GetBalance());
+Console.WriteLine();
+
+accountProxyUser.Deposit(200);
+accountProxyUser.Withdraw(100);
+logger.Log("User balance: " + accountProxyUser.GetBalance());
+Console.WriteLine();
+
+logger.Log("Viewer balance: " + accountProxyViewer.GetBalance());
+accountProxyViewer.Withdraw(50);
 
 Console.WriteLine();
