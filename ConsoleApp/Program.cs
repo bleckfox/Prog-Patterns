@@ -9,6 +9,7 @@ using ConsoleApp.Patterns.Structural.Adapter;
 using ConsoleApp.Patterns.Structural.Composite;
 using ConsoleApp.Patterns.Structural.Decorator;
 using ConsoleApp.Patterns.Structural.Proxy;
+using ConsoleApp.Patterns.Behavioral.Observer;
 
 
 int patternIndent = 10;
@@ -191,5 +192,25 @@ Console.WriteLine();
 
 logHandler("Viewer balance: " + accountProxyViewer.GetBalance());
 accountProxyViewer.Withdraw(50);
+
+Console.WriteLine();
+
+
+// Observer
+logHandler(new string('-', patternIndent) + " Observer");
+
+Broker broker = new(logHandler);
+MobileAppClient mobileAppClient = new("MobileClient", logHandler);
+WebAppClient webAppClient = new("WebClient", logHandler);
+
+broker.RegisterObserver(mobileAppClient);
+broker.RegisterObserver(webAppClient);
+
+broker.ExchangeRate = 96.5m;
+broker.ExchangeRate = 95.4m;
+
+broker.UnregisterObserver(mobileAppClient);
+
+broker.ExchangeRate = 100m;
 
 Console.WriteLine();
