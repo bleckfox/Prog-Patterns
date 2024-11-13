@@ -3,35 +3,35 @@
 public class BankAccounts { }
 
 
-public class DebitAccount(string accountNumber, decimal amount) : IAccountComponent
+public class DebitAccount(string accountNumber, decimal amount, LogHandler logger) : IAccountComponent
 {
     private string _accountNumber = accountNumber;
     private decimal _balance = amount;
 
     public void DisplayAccountInfo(string indent = "")
     {
-        Creational.Singleton.SingletonLogger.Instance.Log($"{indent}{nameof(DebitAccount)} {_accountNumber} - Balance: {_balance}");
+        logger($"{indent}{nameof(DebitAccount)} {_accountNumber} - Balance: {_balance}");
     }
 
     public decimal GetBalance() => _balance;
 }
 
 
-public class SavingAccount(string accountNumber, decimal amount) : IAccountComponent
+public class SavingAccount(string accountNumber, decimal amount, LogHandler logger) : IAccountComponent
 {
     private string _accountNumber = accountNumber;
     private decimal _balance = amount;
 
     public void DisplayAccountInfo(string indent = "")
     {
-        Creational.Singleton.SingletonLogger.Instance.Log($"{indent}{nameof(SavingAccount)} {_accountNumber} - Balance: {_balance}");
+        logger($"{indent}{nameof(SavingAccount)} {_accountNumber} - Balance: {_balance}");
     }
 
     public decimal GetBalance() => _balance;
 }
 
 
-public class AccountPackage(string packageName) : IAccountComponent
+public class AccountPackage(string packageName, LogHandler logger) : IAccountComponent
 {
     private readonly string _packageName = packageName;
     private List<IAccountComponent> _accounts = [];
@@ -39,7 +39,7 @@ public class AccountPackage(string packageName) : IAccountComponent
 
     public void DisplayAccountInfo(string indent = "")
     {
-        Creational.Singleton.SingletonLogger.Instance.Log(string.Join("", indent, nameof(AccountPackage), ": ", _packageName));
+        logger(string.Join("", indent, nameof(AccountPackage), ": ", _packageName));
 
         _accounts.ForEach(account =>
         {

@@ -3,19 +3,23 @@
 public class Payments { }
 
 
-public class PayPallService : IPaymentProcessor
+public class PayPallService(LogHandler logger) : IPaymentProcessor
 {
+    private readonly LogHandler _logger = logger;
+
     public void ProcessPayment(decimal amount)
     {
-        Creational.Singleton.SingletonLogger.Instance.Log($"Processing payment of {amount} through PayPall");
+        _logger($"Processing payment of {amount} through PayPall");
     }
 }
 
-public class CryptoService
+public class CryptoService(LogHandler logger)
 {
+    private readonly LogHandler _logger = logger;
+
     public void ProcessTransaction(decimal amount)
     {
-        Creational.Singleton.SingletonLogger.Instance.Log($"Processing payment of {amount} through CryptoService");
+        _logger($"Processing payment of {amount} through CryptoService");
     }
 }
 

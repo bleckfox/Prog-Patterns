@@ -1,17 +1,15 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace ConsoleApp.Patterns.Structural.Decorator;
+﻿namespace ConsoleApp.Patterns.Structural.Decorator;
 
 public class DecoratorTransactions { }
 
 
-public class BaseTransaction(decimal amount) : ITransaction
+public class BaseTransaction(decimal amount, LogHandler logger) : ITransaction
 {
     public readonly decimal Amount = amount;
 
     public void Process()
     {
-        Creational.Singleton.SingletonLogger.Instance.Log($"Processing transaction of amount {Amount}");
+        logger($"Processing transaction of amount {Amount}");
     }
 }
 
@@ -24,27 +22,27 @@ public abstract class TransactionDecorator(ITransaction transaction) : ITransact
 }
 
 
-public class LoggingTransactionDecorator(ITransaction transaction) : TransactionDecorator(transaction)
+public class LoggingTransactionDecorator(ITransaction transaction, LogHandler logger) : TransactionDecorator(transaction)
 {
     public override void Process()
     {
-        Creational.Singleton.SingletonLogger.Instance.Log($"Logging transaction");
+        logger($"Logging transaction");
         base.Process();
     }
 }
 
 
-public class NotificationTransactionDecorator(ITransaction transaction) : TransactionDecorator(transaction)
+public class NotificationTransactionDecorator(ITransaction transaction, LogHandler logger) : TransactionDecorator(transaction)
 {
     public override void Process()
     {
         base.Process();
-        Creational.Singleton.SingletonLogger.Instance.Log($"Sending notification about transaction");
+        logger($"Sending notification about transaction");
     }
 }
 
 
-public class LimitCheckTransactionDecorator(ITransaction transaction, decimal limit) : TransactionDecorator(transaction)
+public class LimitCheckTransactionDecorator(ITransaction transaction, decimal limit, LogHandler logger) : TransactionDecorator(transaction)
 {
     private readonly decimal _limit = limit;
 
@@ -53,7 +51,7 @@ public class LimitCheckTransactionDecorator(ITransaction transaction, decimal li
         BaseTransaction? baseTransaction = GetBaseTransaction(transaction);
         if (baseTransaction != null && baseTransaction!.Amount > _limit)
         {
-            Creational.Singleton.SingletonLogger.Instance.Log($"Transaction {baseTransaction.Amount} exceed limit {_limit}, canceling transaction");
+            logger($"Transaction {baseTransaction.Amount} exceed limit {_limit}, canceling transaction");
         }
         else
         {

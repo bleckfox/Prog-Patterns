@@ -3,8 +3,9 @@
 /// <summary>
 /// Базовый класс в фабрике для выбора типа транспорта
 /// </summary>
-public abstract class Transport
+public abstract class Transport(LogHandler logger)
 {
+    protected readonly LogHandler _logger = logger;
     public abstract void Deliver();
 }
 
@@ -12,11 +13,11 @@ public abstract class Transport
 /// <summary>
 /// Класс для типа "Автомобиль"
 /// </summary>
-public class Car : Transport
+public class Car(LogHandler logger) : Transport(logger)
 {
     public override void Deliver()
     {
-        Console.WriteLine("Deliver by car");
+        _logger("Deliver by car");
     }
 }
 
@@ -24,10 +25,10 @@ public class Car : Transport
 /// <summary>
 /// Класс для типа "Велосипед"
 /// </summary>
-public class Bike : Transport
+public class Bike(LogHandler logger) : Transport(logger)
 {
     public override void Deliver()
     {
-        Console.WriteLine("Deliver by bike");
+        _logger("Deliver by bike");
     }
 }

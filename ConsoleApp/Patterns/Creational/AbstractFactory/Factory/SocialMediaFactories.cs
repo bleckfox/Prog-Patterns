@@ -2,17 +2,17 @@
 
 public class SocialMediaFactories { }
 
-public class FacebookFactory : ISocialMediaFactory
+public class FacebookFactory(LogHandler logger) : ISocialMediaFactory
 {
-    public IAccount CreateAccount(string username) => new FacebookAccount(username);
+    public IAccount CreateAccount(string username) => new FacebookAccount(username, logger);
 
-    public ISocialNetwork CreateSocialNetwork() => new FacebookSocialNetwork();
+    public ISocialNetwork CreateSocialNetwork() => new FacebookSocialNetwork(logger);
 }
 
-public class TwitterFactory : ISocialMediaFactory
+public class TwitterFactory(LogHandler logger) : ISocialMediaFactory
 {
-    public IAccount CreateAccount(string username) => new TwitterAccount(username);
+    public IAccount CreateAccount(string username) => new TwitterAccount(username, logger);
 
-    public ISocialNetwork CreateSocialNetwork() => new TwitterSocialNetwork();
+    public ISocialNetwork CreateSocialNetwork() => new TwitterSocialNetwork(logger);
 }
 

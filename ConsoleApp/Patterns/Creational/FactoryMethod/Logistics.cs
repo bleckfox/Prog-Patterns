@@ -21,20 +21,20 @@ public abstract class Logistic
 }
 
 
-public class CarLogistic : Logistic
+public class CarLogistic(LogHandler logger) : Logistic
 {
     public override Transport CreateTransport()
     {
-        return new Car();
+        return new Car(logger);
     }
 }
 
 
-public class BikeLogistic : Logistic
+public class BikeLogistic(LogHandler logger) : Logistic
 {
     public override Transport CreateTransport()
     {
-        return new Bike();
+        return new Bike(logger);
     }
 }
 

@@ -1,14 +1,16 @@
 ﻿namespace ConsoleApp.Patterns.Structural.Facade;
 
-public class BankingFacade()
+public class BankingFacade(LogHandler logger)
 {
-    private readonly AccountVerification _verification = new();
-    private readonly TransactionProcessor _transactionProcessor = new();
-    private readonly NotificationService _notificationService = new();
+    private readonly AccountVerification _verification = new(logger);
+    private readonly TransactionProcessor _transactionProcessor = new(logger);
+    private readonly NotificationService _notificationService = new(logger);
+
+    private readonly LogHandler _logger = logger;
 
     public void Transfer(string fromAccount, string toAccount, decimal amount)
     {
-        Creational.Singleton.SingletonLogger.Instance.Log($"Init Transfer");
+        _logger($"Init Transfer");
 
         if (_verification.VerifyAccount(fromAccount) && _verification.VerifyAccount(toAccount))
         {

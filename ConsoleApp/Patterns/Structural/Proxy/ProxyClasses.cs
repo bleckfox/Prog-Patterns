@@ -3,13 +3,14 @@
 public class ProxyClasses { }
 
 
-public class SomeBankAccount : IBankAccount
+public class SomeBankAccount(LogHandler logger) : IBankAccount
 {
+    private readonly LogHandler _logger = logger;
     private decimal _balance;
 
     private void LogOperation(string operationType, decimal amount)
     {
-        Creational.Singleton.SingletonLogger.Instance.Log($"{operationType} {amount}. New balace is {_balance}");
+        _logger($"{operationType} {amount}. New balace is {_balance}");
     }
 
     public void Deposit(decimal amount)
@@ -27,7 +28,7 @@ public class SomeBankAccount : IBankAccount
         }
         else
         {
-            Creational.Singleton.SingletonLogger.Instance.Log($"Insufficient money");
+            _logger($"Insufficient money");
         }
     }
 
@@ -35,10 +36,11 @@ public class SomeBankAccount : IBankAccount
 }
 
 
-public class BankAccountProxy(IBankAccount bankAccount, string role) : IBankAccount
+public class BankAccountProxy(IBankAccount bankAccount, string role, LogHandler logger) : IBankAccount
 {
     private readonly IBankAccount _bankAccount = bankAccount;
     private readonly string _role = role;
+    private readonly LogHandler _logger = logger;
 
     public void Deposit(decimal amount)
     {
@@ -48,7 +50,7 @@ public class BankAccountProxy(IBankAccount bankAccount, string role) : IBankAcco
         }
         else
         {
-            Creational.Singleton.SingletonLogger.Instance.Log("Access denied: Insufficient permissions for Deposit.");
+            _logger("Access denied: Insufficient permissions for Deposit.");
         }
     }
 
@@ -60,7 +62,7 @@ public class BankAccountProxy(IBankAccount bankAccount, string role) : IBankAcco
         }
         else
         {
-            Creational.Singleton.SingletonLogger.Instance.Log("Access denied: Insufficient permissions for Withdraw.");
+            _logger("Access denied: Insufficient permissions for Withdraw.");
         }
     }
 
@@ -72,7 +74,7 @@ public class BankAccountProxy(IBankAccount bankAccount, string role) : IBankAcco
         }
         else
         {
-            Creational.Singleton.SingletonLogger.Instance.Log("Access denied: Insufficient permissions to view balance.");
+            _logger("Access denied: Insufficient permissions to view balance.");
             return 0;
         }
     }
