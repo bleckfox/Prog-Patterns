@@ -10,6 +10,7 @@ using ConsoleApp.Patterns.Structural.Composite;
 using ConsoleApp.Patterns.Structural.Decorator;
 using ConsoleApp.Patterns.Structural.Proxy;
 using ConsoleApp.Patterns.Behavioral.Observer;
+using ConsoleApp.Patterns.Behavioral.Strategy;
 
 
 int patternIndent = 10;
@@ -212,5 +213,20 @@ broker.ExchangeRate = 95.4m;
 broker.UnregisterObserver(mobileAppClient);
 
 broker.ExchangeRate = 100m;
+
+Console.WriteLine();
+
+
+// Strategy
+logHandler(new string('-', patternIndent) + " Strategy");
+
+// 2%
+BankTransaction bankTransaction = new(new PercentageFeeStrategy(0.02m), logHandler);
+
+bankTransaction.ProcessTransaction(100);
+
+bankTransaction.SetFeeStrategy(new FixedFeeStrategy(5));
+
+bankTransaction.ProcessTransaction(100);
 
 Console.WriteLine();
