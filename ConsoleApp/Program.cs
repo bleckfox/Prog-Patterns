@@ -13,6 +13,7 @@ using ConsoleApp.Patterns.Behavioral.Observer;
 using ConsoleApp.Patterns.Behavioral.Strategy;
 using ConsoleApp.Patterns.Behavioral.Command;
 using ConsoleApp.Patterns.Behavioral.State;
+using ConsoleApp.Patterns.Behavioral.ChainOfResponsibility;
 
 
 int patternIndent = 10;
@@ -276,5 +277,22 @@ problem.Review();
 problem.Complete(); // state -> Completed
 
 problem.Review();
+
+Console.WriteLine();
+
+
+// Chain of Responsibility
+logHandler(new string('-', patternIndent) + " Chain of Responsibility");
+
+BankTransactionCOR bankTransactionCOR = new(200m, "acc12", 500m, 300m);
+
+BalanceCheckHandler balanceCheck = new(logHandler);
+
+balanceCheck
+    .SetNext(new LimitCheckHandler(logHandler))
+    .SetNext(new LoggingTransactionHandler(logHandler))
+    .SetNext(new CompleteTransactionHandler(logHandler));
+
+balanceCheck.Handle(bankTransactionCOR);
 
 Console.WriteLine();
