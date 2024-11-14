@@ -12,6 +12,7 @@ using ConsoleApp.Patterns.Structural.Proxy;
 using ConsoleApp.Patterns.Behavioral.Observer;
 using ConsoleApp.Patterns.Behavioral.Strategy;
 using ConsoleApp.Patterns.Behavioral.Command;
+using ConsoleApp.Patterns.Behavioral.State;
 
 
 int patternIndent = 10;
@@ -257,5 +258,23 @@ bankCommandManager.GetHistory();
 
 bankCommandManager.ExecuteCommand(new WithdrawCommand((BankAccountProxy)accountProxyUser, 1100m));
 bankCommandManager.GetHistory();
+
+Console.WriteLine();
+
+
+// State
+logHandler(new string('-', patternIndent) + " State");
+
+Problem problem = new(logHandler); // state -> New
+
+problem.Start();    // state -> In progress
+problem.Start();
+
+problem.Review();   // state -> Review
+problem.Review();
+
+problem.Complete(); // state -> Completed
+
+problem.Review();
 
 Console.WriteLine();

@@ -13,7 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Patterns\Behavioral\State\" />
     <Folder Include="Patterns\Behavioral\ChainOfResponsibility\" />
     <Folder Include="Patterns\Concurrency\ThreadPool\" />
     <Folder Include="Patterns\Concurrency\ProducerConsumer\" />
