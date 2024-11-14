@@ -11,6 +11,7 @@ using ConsoleApp.Patterns.Structural.Decorator;
 using ConsoleApp.Patterns.Structural.Proxy;
 using ConsoleApp.Patterns.Behavioral.Observer;
 using ConsoleApp.Patterns.Behavioral.Strategy;
+using ConsoleApp.Patterns.Behavioral.Command;
 
 
 int patternIndent = 10;
@@ -181,6 +182,7 @@ IBankAccount accountProxyAdmin = new BankAccountProxy(someBankAccount, "Admin", 
 IBankAccount accountProxyUser = new BankAccountProxy(someBankAccount, "User", logHandler);
 IBankAccount accountProxyViewer = new BankAccountProxy(someBankAccount, "Viewer", logHandler);
 
+// work with the same bank account
 accountProxyAdmin.Deposit(100);
 accountProxyAdmin.Withdraw(50);
 logHandler("Admin balance: " + accountProxyAdmin.GetBalance());
@@ -228,5 +230,32 @@ bankTransaction.ProcessTransaction(100);
 bankTransaction.SetFeeStrategy(new FixedFeeStrategy(5));
 
 bankTransaction.ProcessTransaction(100);
+
+Console.WriteLine();
+
+
+// Command
+logHandler(new string('-', patternIndent) + " Command");
+
+//SomeBankAccount bankAccount = new(logHandler);  -- right way is using proxy
+SomeBankCommandManager bankCommandManager = new(logHandler);
+
+DepositCommand depositCommand = new((BankAccountProxy)accountProxyUser, 100m);
+WithdrawCommand withdrawCommand = new((BankAccountProxy)accountProxyUser, 50m);
+
+bankCommandManager.ExecuteCommand(depositCommand);
+bankCommandManager.ExecuteCommand(withdrawCommand);
+
+bankCommandManager.GetHistory();
+
+bankCommandManager.UndoLastCommand();
+bankCommandManager.GetHistory();
+
+bankCommandManager.ExecuteCommand(new WithdrawCommand((BankAccountProxy)accountProxyUser, 110m));
+
+bankCommandManager.GetHistory();
+
+bankCommandManager.ExecuteCommand(new WithdrawCommand((BankAccountProxy)accountProxyUser, 1100m));
+bankCommandManager.GetHistory();
 
 Console.WriteLine();
