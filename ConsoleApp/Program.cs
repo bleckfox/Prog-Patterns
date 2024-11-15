@@ -14,6 +14,7 @@ using ConsoleApp.Patterns.Behavioral.Strategy;
 using ConsoleApp.Patterns.Behavioral.Command;
 using ConsoleApp.Patterns.Behavioral.State;
 using ConsoleApp.Patterns.Behavioral.ChainOfResponsibility;
+using ConsoleApp.Patterns.Concurrency.ThreadPool;
 
 
 int patternIndent = 10;
@@ -294,5 +295,33 @@ balanceCheck
     .SetNext(new CompleteTransactionHandler(logHandler));
 
 balanceCheck.Handle(bankTransactionCOR);
+
+Console.WriteLine();
+
+
+// Thread pool
+logHandler(new string('-', patternIndent) + " Thread pool");
+
+CreditAppManager creditAppManager = new(logHandler);
+
+for(int i = 0; i <= 5; i++)
+{
+    creditAppManager.AddTask(
+        new CreaditAppProgress(
+            new BankCreditApp(i, $"App {i}", i * 1000),
+            logHandler
+        )
+    );
+}
+
+creditAppManager.StartProcessing(3);
+
+Thread.Sleep(100);
+
+creditAppManager.StopProcessing();
+
+creditAppManager.StartProcessing(2);
+
+logHandler("All credit applications have been processed.");
 
 Console.WriteLine();
